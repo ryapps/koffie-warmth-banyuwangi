@@ -1,4 +1,4 @@
-import { Instagram, Facebook, MapPin, Phone, Mail } from "lucide-react";
+import { Camera, Share2, MapPin, Phone, Mail } from "lucide-react";
 import { config } from "@/data/config";
 
 const explore = ["Cerita Kami", "Menu", "Ruang Kami", "Jurnal", "Acara", "Kartu Hadiah"];
