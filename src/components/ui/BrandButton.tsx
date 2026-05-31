@@ -6,7 +6,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
 }
 
-export function Button({ variant = "filled", className, children, ...rest }: Props) {
+export function BrandButton({ variant = "filled", className, children, ...rest }: Props) {
   const base =
     "inline-flex items-center justify-center px-7 py-3 text-[11px] tracking-[0.2em] font-body font-medium uppercase transition-all duration-300 cursor-pointer";
   const variants = {
