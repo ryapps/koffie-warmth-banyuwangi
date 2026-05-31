@@ -17,7 +17,7 @@ export function Footer() {
             {config.brand.tagline}
           </p>
           <div className="flex gap-3 mt-6">
-            {[Instagram, Facebook].map((Icon, i) => (
+            {[Camera, Share2].map((Icon, i) => (
               <a
                 key={i}
                 href="#"
