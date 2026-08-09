@@ -28,41 +28,7 @@ type MenuRow = {
   featured: boolean;
 };
 
-const initialMenuData: MenuItem[] = [
-  {
-    id: "1",
-    name: "Amber Latte",
-    category: "kopi",
-    price: 42000,
-    description: "Espresso dengan susu hangat dan foam amber yang lembut",
-    badge: null,
-    image: "https://images.unsplash.com/photo-1577982643482-8dae6c60eb23?w=400",
-    isActive: true,
-    order: 1,
-  },
-  {
-    id: "2",
-    name: "Kopi Jember Single Origin",
-    category: "kopi",
-    price: 38000,
-    description: "Kopi specialty dari perkebunan lokal Jember",
-    badge: "single-origin",
-    image: "https://images.unsplash.com/photo-1559056199-641a0ac8b3f4?w=400",
-    isActive: true,
-    order: 2,
-  },
-  {
-    id: "3",
-    name: "Nasi Kuning",
-    category: "sarapan",
-    price: 35000,
-    description: "Nasi kuning dengan telur dan sambal matah",
-    badge: "favorit",
-    image: "https://images.unsplash.com/photo-1609618395181-1ca1f14fddc9?w=400",
-    isActive: true,
-    order: 3,
-  },
-];
+const initialMenuData: MenuItem[] = [];
 
 const removeUndefined = <T extends Record<string, unknown>>(payload: T) =>
   Object.fromEntries(Object.entries(payload).filter(([, value]) => value !== undefined));

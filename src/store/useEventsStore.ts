@@ -34,22 +34,7 @@ type EventRow = {
   is_published: boolean;
 };
 
-const initialEventsData: Event[] = [
-  {
-    id: "1",
-    type: "mendatang",
-    title: "Malam Jazz Spesial",
-    description: "Nikmati musik jazz live sambil menikmati kopi spesial kami",
-    date: "2026-06-15",
-    startTime: "19:00",
-    endTime: "22:00",
-    cta: "RSVP",
-    ctaLink: "#",
-    image: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400",
-    status: "aktif",
-    isPublished: true,
-  },
-];
+const initialEventsData: Event[] = [];
 
 const toEvent = (row: EventRow): Event => ({
   id: row.id,

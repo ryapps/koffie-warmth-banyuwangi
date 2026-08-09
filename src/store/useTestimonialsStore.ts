@@ -26,27 +26,7 @@ type TestimonialRow = {
   sort_order: number;
 };
 
-const initialTestimonialsData: Testimonial[] = [
-  {
-    id: "1",
-    name: "Budi Santoso",
-    role: "Pelanggan Setia",
-    quote:
-      "Kopi di KOFFIE adalah yang terbaik di Jember. Suasananya nyaman dan pelayanannya ramah!",
-    stars: 5,
-    status: "published",
-    order: 1,
-  },
-  {
-    id: "2",
-    name: "Siti Nurhaliza",
-    role: "Pemilik Usaha",
-    quote: "Tempat ideal untuk meeting dan diskusi bisnis. Recommended!",
-    stars: 5,
-    status: "published",
-    order: 2,
-  },
-];
+const initialTestimonialsData: Testimonial[] = [];
 
 const removeUndefined = <T extends Record<string, unknown>>(payload: T) =>
   Object.fromEntries(Object.entries(payload).filter(([, value]) => value !== undefined));

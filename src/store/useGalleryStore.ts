@@ -26,25 +26,7 @@ type GalleryRow = {
   is_hero: boolean;
 };
 
-const initialGalleryData: GalleryPhoto[] = [
-  {
-    id: "1",
-    url: "https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=800",
-    caption: "Interior Kafe KOFFIE",
-    category: "interior",
-    isActive: true,
-    order: 1,
-    isHero: true,
-  },
-  {
-    id: "2",
-    url: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=800",
-    caption: "Kopi Specialty Kami",
-    category: "food",
-    isActive: true,
-    order: 2,
-  },
-];
+const initialGalleryData: GalleryPhoto[] = [];
 
 const removeUndefined = <T extends Record<string, unknown>>(payload: T) =>
   Object.fromEntries(Object.entries(payload).filter(([, value]) => value !== undefined));

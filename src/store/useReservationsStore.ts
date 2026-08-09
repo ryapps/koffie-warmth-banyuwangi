@@ -31,19 +31,7 @@ type ReservationRow = {
   created_at: string;
 };
 
-const initialReservationsData: Reservation[] = [
-  {
-    id: "1",
-    name: "Rendra Wijaya",
-    phone: "081234567890",
-    date: new Date().toISOString().split("T")[0],
-    time: "14:00",
-    guests: 4,
-    specialRequest: "Meja dekat jendela",
-    status: "pending",
-    createdAt: new Date().toISOString(),
-  },
-];
+const initialReservationsData: Reservation[] = [];
 
 const removeUndefined = <T extends Record<string, unknown>>(payload: T) =>
   Object.fromEntries(Object.entries(payload).filter(([, value]) => value !== undefined));
