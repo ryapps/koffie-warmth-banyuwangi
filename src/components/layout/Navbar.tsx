@@ -4,10 +4,17 @@ import { config } from "@/data/config";
 import { useScrolled } from "@/hooks/useScrolled";
 import { BrandButton } from "@/components/ui/BrandButton";
 import { cn } from "@/lib/utils";
+import { useReservationModalStore } from "@/store/useReservationModalStore";
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const scrolled = useScrolled(20);
+  const openReservationModal = useReservationModalStore((state) => state.openModal);
+
+  const handleOpenModal = () => {
+    setOpen(false);
+    openReservationModal();
+  };
 
   return (
     <header
@@ -40,7 +47,11 @@ export function Navbar() {
         </ul>
 
         <div className="flex items-center gap-3">
-          <BrandButton variant="outlined" className="hidden sm:inline-flex">
+          <BrandButton
+            variant="outlined"
+            onClick={openReservationModal}
+            className="hidden sm:inline-flex cursor-pointer"
+          >
             Pesan Meja
           </BrandButton>
           <button
@@ -74,7 +85,11 @@ export function Navbar() {
               </li>
             ))}
           </ul>
-          <BrandButton variant="outlined" className="mt-auto w-full">
+          <BrandButton
+            variant="outlined"
+            onClick={handleOpenModal}
+            className="mt-auto w-full cursor-pointer"
+          >
             Pesan Meja
           </BrandButton>
         </div>
@@ -82,3 +97,4 @@ export function Navbar() {
     </header>
   );
 }
+

@@ -7,7 +7,7 @@ const blocks = [
     accent: "Selalu.",
     body: "Hubungan langsung dengan petani kecil di Jawa Timur, Aceh, dan Toraja. Kami bayar di atas harga fair-trade—selalu. Kami kunjungi setiap kebun setahun sekali dan publikasikan laporan sumber secara terbuka.",
     bullets: ["3 daerah asal, 12 kemitraan petani aktif", "40% di atas harga minimum fair-trade", "Program kunjungan tahunan oleh head roaster kami"],
-    img: "https://images.unsplash.com/photo-1611162616305-c69b3037c1a9?auto=format&fit=crop&w=1200&q=80",
+    img: "https://images.unsplash.com/photo-1746623691149-daeff6c67335?auto=format&fit=crop&w=1200&q=80",
     bg: "bg-ivory",
     reverse: false,
   },

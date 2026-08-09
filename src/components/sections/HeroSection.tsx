@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { BrandButton } from "@/components/ui/BrandButton";
 import { config } from "@/data/config";
 import { Star } from "lucide-react";
+import { useReservationModalStore } from "@/store/useReservationModalStore";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -13,6 +14,8 @@ const fadeUp = {
 };
 
 export function HeroSection() {
+  const openReservationModal = useReservationModalStore((state) => state.openModal);
+
   return (
     <section
       id="top"
@@ -77,8 +80,12 @@ export function HeroSection() {
             variants={fadeUp}
             className="flex flex-col sm:flex-row gap-4 mt-6"
           >
-            <BrandButton variant="filled">Pesan Meja</BrandButton>
-            <BrandButton variant="outlined">Jelajahi Menu</BrandButton>
+            <BrandButton variant="filled" onClick={openReservationModal}>
+              Pesan Meja
+            </BrandButton>
+            <a href="#menu">
+              <BrandButton variant="outlined">Jelajahi Menu</BrandButton>
+            </a>
           </motion.div>
 
           <motion.div

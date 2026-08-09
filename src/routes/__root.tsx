@@ -1,16 +1,16 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
-  Outlet,
+  HeadContent,
   Link,
+  Outlet,
+  Scripts,
   createRootRouteWithContext,
   useRouter,
-  HeadContent,
-  Scripts,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
-import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import appCss from "../styles.css?url";
 
 function NotFoundComponent() {
   return (

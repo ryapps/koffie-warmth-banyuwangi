@@ -1,19 +1,21 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
 import { FloatingActionBar } from "@/components/layout/FloatingActionBar";
+import { Footer } from "@/components/layout/Footer";
+import { Navbar } from "@/components/layout/Navbar";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { MarqueeBar } from "@/components/sections/MarqueeBar";
-import { PhilosophySection } from "@/components/sections/PhilosophySection";
 import { MenuSection } from "@/components/sections/MenuSection";
 import { OurSpaceSection } from "@/components/sections/OurSpaceSection";
+import { PhilosophySection } from "@/components/sections/PhilosophySection";
+import { ReservationSection } from "@/components/sections/ReservationSection";
+import { ReservationModal } from "@/components/ui/ReservationModal";
 import {
   EventsSection,
-  PrivateHireSection,
-  TestimonialsSection,
   FindUsSection,
   NewsletterSection,
+  PrivateHireSection,
+  TestimonialsSection,
 } from "@/components/sections/RemainingSections";
+import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -45,12 +47,14 @@ function Index() {
     <main className="bg-ivory min-h-screen">
       <Navbar />
       <FloatingActionBar />
+      <ReservationModal />
       <HeroSection />
       <MarqueeBar />
       <PhilosophySection />
       <MenuSection />
       <OurSpaceSection />
       <EventsSection />
+      <ReservationSection />
       <PrivateHireSection />
       <TestimonialsSection />
       <FindUsSection />
@@ -59,3 +63,4 @@ function Index() {
     </main>
   );
 }
+
