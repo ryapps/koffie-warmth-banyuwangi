@@ -70,7 +70,7 @@ describe("useEventsStore", () => {
         },
         {
           id: "2",
-          type: "draft" as any,
+          type: "mendatang",
           title: "Draft Event",
           description: "",
           date: "2026-06-16",

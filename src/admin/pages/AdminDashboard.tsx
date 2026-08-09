@@ -37,8 +37,14 @@ export const AdminDashboard = () => {
   };
 
   useEffect(() => {
-    reloadAllStores().catch(console.error);
-  }, []);
+    Promise.all([
+      loadMenu(),
+      loadEvents(),
+      loadReservations(),
+      loadTestimonials(),
+      loadGallery(),
+    ]).catch(console.error);
+  }, [loadEvents, loadGallery, loadMenu, loadReservations, loadTestimonials]);
 
   const handleSeedDatabase = async () => {
     if (!confirm("Apakah Anda yakin ingin mengisi database dengan Data Seeder Sampel lengkap?")) {
