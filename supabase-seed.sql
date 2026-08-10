@@ -9,6 +9,10 @@ TRUNCATE TABLE public.events CASCADE;
 TRUNCATE TABLE public.testimonials CASCADE;
 TRUNCATE TABLE public.gallery_photos CASCADE;
 TRUNCATE TABLE public.reservations CASCADE;
+TRUNCATE TABLE public.business_settings CASCADE;
+TRUNCATE TABLE public.hero_content CASCADE;
+TRUNCATE TABLE public.marquee_items CASCADE;
+TRUNCATE TABLE public.operating_hours CASCADE;
 
 -- ==============================================================================
 -- 2. SEED TABLE: MENU_ITEMS
@@ -439,5 +443,66 @@ INSERT INTO public.reservations (id, name, phone, email, date, time, guests, spe
   NOW() - INTERVAL '4 days'
 );
 
+-- ==============================================================================
+-- 7. SEED TABLE: BUSINESS_SETTINGS
+-- ==============================================================================
+INSERT INTO public.business_settings (id, name, tagline, description, address, city, phone, whatsapp, email, instagram, facebook, maps_url, rating_stat, years_stat, origins_stat) VALUES
+(
+  gen_random_uuid(),
+  'KOFFIE',
+  'Tempat kopi diseduh dengan hati di Banyuwangi.',
+  'Kafe spesialti dengan suasana nyaman untuk bekerja, bersantai, atau gathering dengan teman.',
+  'Jl. Ikan Tongkol No. 42, Banyuwangi, Jawa Timur 68419',
+  'Banyuwangi',
+  '+62 333 412 800',
+  '+62 812 3456 7890',
+  'halo@koffie.id',
+  '@koffie.bwi',
+  'https://facebook.com/koffie.bwi',
+  'https://www.google.com/maps?q=Banyuwangi,Jawa+Timur',
+  '4.9',
+  '6+',
+  '12'
+);
+
+-- ==============================================================================
+-- 8. SEED TABLE: HERO_CONTENT
+-- ==============================================================================
+INSERT INTO public.hero_content (id, title, subtitle, description, location_label, image_url, primary_cta_text, primary_cta_link, secondary_cta_text, secondary_cta_link, is_active) VALUES
+(
+  gen_random_uuid(),
+  'Setiap Cangkir Punya Cerita di Banyuwangi.',
+  '"Kafe itu suasana hati—dan kami selalu tidak terburu-buru."',
+  'Kopi diseduh perlahan, pastri yang baru keluar dari oven, dan sudut kota yang terasa seperti rumah. Datanglah apa adanya. Berlama-lama sesukamu.',
+  'Est. 2018 · Banyuwangi, Jawa Timur',
+  'https://images.unsplash.com/photo-1442550528053-c431ecb55509?auto=format&fit=crop&w=1800&q=80',
+  'Pesan Meja',
+  '#reservasi',
+  'Jelajahi Menu',
+  '#menu',
+  true
+);
+
+-- ==============================================================================
+-- 9. SEED TABLE: MARQUEE_ITEMS
+-- ==============================================================================
+INSERT INTO public.marquee_items (id, text, sort_order, is_active) VALUES
+(gen_random_uuid(), 'PLAYLIST PILIHAN', 1, true),
+(gen_random_uuid(), 'BIJI BERETIKA', 2, true),
+(gen_random_uuid(), 'ACARA PRIVAT', 3, true),
+(gen_random_uuid(), 'RAMAH ANJING', 4, true),
+(gen_random_uuid(), 'MALAM JAZZ', 5, true),
+(gen_random_uuid(), 'WORKSHOP ROASTING', 6, true),
+(gen_random_uuid(), 'SPECIALTY COFFEE', 7, true);
+
+-- ==============================================================================
+-- 10. SEED TABLE: OPERATING_HOURS
+-- ==============================================================================
+INSERT INTO public.operating_hours (id, day, open_time, close_time, is_open, sort_order) VALUES
+(gen_random_uuid(), 'Senin – Jumat', '07.00', '22.00', true, 1),
+(gen_random_uuid(), 'Sabtu', '08.00', '23.00', true, 2),
+(gen_random_uuid(), 'Minggu', '09.00', '21.00', true, 3);
+
 -- Done notification
 SELECT 'Database KOFFIE Café berhasil di-seed dengan data lengkap!' as message;
+

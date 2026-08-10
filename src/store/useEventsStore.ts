@@ -32,6 +32,7 @@ type EventRow = {
   image: string;
   status: Event["status"];
   is_published: boolean;
+  created_at?: string;
 };
 
 const initialEventsData: Event[] = [];
@@ -52,6 +53,7 @@ const toEvent = (row: EventRow): Event => ({
   image: row.image,
   status: row.status,
   isPublished: row.is_published,
+  createdAt: row.created_at,
 });
 
 const removeUndefined = <T extends Record<string, unknown>>(payload: T) =>

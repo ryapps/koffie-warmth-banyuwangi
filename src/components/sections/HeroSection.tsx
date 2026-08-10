@@ -1,8 +1,10 @@
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { BrandButton } from "@/components/ui/BrandButton";
-import { config } from "@/data/config";
 import { Star } from "lucide-react";
 import { useReservationModalStore } from "@/store/useReservationModalStore";
+import { useHeroStore } from "@/store/useHeroStore";
+import { useSettingsStore } from "@/store/useSettingsStore";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -15,6 +17,17 @@ const fadeUp = {
 
 export function HeroSection() {
   const openReservationModal = useReservationModalStore((state) => state.openModal);
+  const hero = useHeroStore((state) => state.hero);
+  const cafeSettings = useSettingsStore((state) => state.cafeSettings);
+
+  useEffect(() => {
+    useHeroStore.getState().loadHero().catch((err) => {
+      console.error("Gagal memuat konten hero dari Supabase:", err);
+    });
+    useSettingsStore.getState().loadSettings().catch((err) => {
+      console.error("Gagal memuat pengaturan kafe dari Supabase:", err);
+    });
+  }, []);
 
   return (
     <section
@@ -22,7 +35,7 @@ export function HeroSection() {
       className="relative min-h-screen bg-espresso text-cream overflow-hidden flex items-center"
     >
       <img
-        src="https://images.unsplash.com/photo-1442550528053-c431ecb55509?auto=format&fit=crop&w=1800&q=80"
+        src={hero.imageUrl}
         alt="Kopi diseduh perlahan di KOFFIE café"
         className="absolute inset-0 w-full h-full object-cover opacity-70 lg:opacity-100"
       />
@@ -37,30 +50,26 @@ export function HeroSection() {
             variants={fadeUp}
             className="font-accent italic text-amber-brand text-base"
           >
-            {config.brand.location}
+            {hero.locationLabel || `Est. 2018 · ${cafeSettings.city}, Jawa Timur`}
           </motion.span>
 
           <h1 className="font-display font-black leading-[1.02] text-5xl sm:text-6xl lg:text-7xl xl:text-8xl">
             <motion.span custom={1} initial="hidden" animate="show" variants={fadeUp} className="block text-cream">
-              Setiap Cangkir
-            </motion.span>
-            <motion.span custom={2} initial="hidden" animate="show" variants={fadeUp} className="block">
-              <em className="not-italic text-amber-brand italic font-display">Punya Cerita</em>
-            </motion.span>
-            <motion.span custom={3} initial="hidden" animate="show" variants={fadeUp} className="block text-cream">
-              di Banyuwangi.
+              {hero.title}
             </motion.span>
           </h1>
 
-          <motion.p
-            custom={4}
-            initial="hidden"
-            animate="show"
-            variants={fadeUp}
-            className="font-accent italic text-cream/70 text-lg mt-2"
-          >
-            &ldquo;Kafe itu suasana hati—dan kami selalu tidak terburu-buru.&rdquo;
-          </motion.p>
+          {hero.subtitle && (
+            <motion.p
+              custom={4}
+              initial="hidden"
+              animate="show"
+              variants={fadeUp}
+              className="font-accent italic text-cream/70 text-lg mt-2"
+            >
+              {hero.subtitle}
+            </motion.p>
+          )}
 
           <motion.p
             custom={5}
@@ -69,8 +78,7 @@ export function HeroSection() {
             variants={fadeUp}
             className="text-cream/70 text-sm leading-relaxed max-w-md"
           >
-            Kopi diseduh perlahan, pastri yang baru keluar dari oven, dan sudut kota yang terasa
-            seperti rumah. Datanglah apa adanya. Berlama-lama sesukamu.
+            {hero.description}
           </motion.p>
 
           <motion.div
@@ -81,10 +89,10 @@ export function HeroSection() {
             className="flex flex-col sm:flex-row gap-4 mt-6"
           >
             <BrandButton variant="filled" onClick={openReservationModal}>
-              Pesan Meja
+              {hero.primaryCtaText || "Pesan Meja"}
             </BrandButton>
-            <a href="#menu">
-              <BrandButton variant="outlined">Jelajahi Menu</BrandButton>
+            <a href={hero.secondaryCtaLink || "#menu"}>
+              <BrandButton variant="outlined">{hero.secondaryCtaText || "Jelajahi Menu"}</BrandButton>
             </a>
           </motion.div>
 
@@ -101,15 +109,15 @@ export function HeroSection() {
                 <span className="text-[10px] font-body tracking-widest">GOOGLE</span>
               </div>
               <div className="font-display font-black text-3xl leading-none mt-1">
-                {config.stats.rating}
+                {cafeSettings.ratingStat || "4.9"}
               </div>
             </div>
             <div className="border-l border-cream/20 pl-6">
-              <div className="font-display font-bold text-3xl">{config.stats.years}</div>
+              <div className="font-display font-bold text-3xl">{cafeSettings.yearsStat || "6+"}</div>
               <div className="text-[10px] tracking-widest text-cream/50 mt-1">TAHUN ROASTING</div>
             </div>
             <div className="border-l border-cream/20 pl-6">
-              <div className="font-display font-bold text-3xl">{config.stats.origins}</div>
+              <div className="font-display font-bold text-3xl">{cafeSettings.originsStat || "12"}</div>
               <div className="text-[10px] tracking-widest text-cream/50 mt-1">ORIGIN BIJI</div>
             </div>
           </motion.div>

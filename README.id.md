@@ -258,9 +258,14 @@ koffie/
    *(Catatan: Jika kredensial Supabase dikosongkan, aplikasi akan secara otomatis berjalan dalam moda fallback menggunakan local state Zustand).*
 
 4. **Setup Database (Opsional untuk sinkronisasi Supabase live)**:
-   Jalankan perintah SQL dari file `supabase-seed.sql` pada SQL Editor Supabase Anda untuk membuat tabel (`menu_items`, `events`, `testimonials`, `gallery_photos`, `reservations`) dan mengisikan sampel data awal.
+   Jalankan perintah SQL dari file `supabase-events.sql` dan `supabase-seed.sql` pada SQL Editor Supabase Anda untuk membuat tabel (`menu_items`, `events`, `testimonials`, `gallery_photos`, `reservations`, `business_settings`, `hero_content`, `marquee_items`, `operating_hours`) dan mengisikan sampel data awal.
 
-5. **Jalankan Development Server**:
+5. **Pengelolaan Konten Bisnis Dinamis**:
+   - **Konten Hero**: Judul, subtitle, deskripsi, kutipan, label lokasi, dan gambar latar belakang (dengan Supabase Storage) dikelola di Admin Panel (`/admin/hero`).
+   - **Teks Marquee**: Teks berjalan aktif, urutan, dan tampilan dikelola di Admin Panel (`/admin/marquee`).
+   - **Informasi Bisnis & Jam Operasional**: Detail kafe, alamat, kontak, sosmed, URL Google Maps, dan jam operasional dikelola di Admin Panel (`/admin/settings`).
+
+6. **Jalankan Development Server**:
    ```bash
    npm run dev
    ```

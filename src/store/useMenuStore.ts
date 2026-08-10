@@ -26,6 +26,7 @@ type MenuRow = {
   is_active: boolean;
   sort_order: number;
   featured: boolean;
+  created_at?: string;
 };
 
 const initialMenuData: MenuItem[] = [];
@@ -44,6 +45,7 @@ const toMenuItem = (row: MenuRow): MenuItem => ({
   isActive: row.is_active,
   order: row.sort_order,
   featured: row.featured,
+  createdAt: row.created_at,
 });
 
 const toMenuPayload = (item: Partial<MenuItem>) =>

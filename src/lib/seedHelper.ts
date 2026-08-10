@@ -522,6 +522,52 @@ export const initialReservationsSeed = [
   },
 ];
 
+export const initialBusinessSettingsSeed = {
+  name: "KOFFIE",
+  tagline: "Tempat kopi diseduh dengan hati di Banyuwangi.",
+  description: "Kafe spesialti dengan suasana nyaman untuk bekerja, bersantai, atau gathering dengan teman.",
+  address: "Jl. Ikan Tongkol No. 42, Banyuwangi, Jawa Timur 68419",
+  city: "Banyuwangi",
+  phone: "+62 333 412 800",
+  whatsapp: "+62 812 3456 7890",
+  email: "halo@koffie.id",
+  instagram: "@koffie.bwi",
+  facebook: "https://facebook.com/koffie.bwi",
+  maps_url: "https://www.google.com/maps?q=Banyuwangi,Jawa+Timur&output=embed",
+  rating_stat: "4.9",
+  years_stat: "6+",
+  origins_stat: "12",
+};
+
+export const initialHeroContentSeed = {
+  title: "Setiap Cangkir Punya Cerita di Banyuwangi.",
+  subtitle: '"Kafe itu suasana hati—dan kami selalu tidak terburu-buru."',
+  description: "Kopi diseduh perlahan, pastri yang baru keluar dari oven, dan sudut kota yang terasa seperti rumah. Datanglah apa adanya. Berlama-lama sesukamu.",
+  location_label: "Est. 2018 · Banyuwangi, Jawa Timur",
+  image_url: "https://images.unsplash.com/photo-1442550528053-c431ecb55509?auto=format&fit=crop&w=1800&q=80",
+  primary_cta_text: "Pesan Meja",
+  primary_cta_link: "#reservasi",
+  secondary_cta_text: "Jelajahi Menu",
+  secondary_cta_link: "#menu",
+  is_active: true,
+};
+
+export const initialMarqueeSeed = [
+  { text: "PLAYLIST PILIHAN", sort_order: 1, is_active: true },
+  { text: "BIJI BERETIKA", sort_order: 2, is_active: true },
+  { text: "ACARA PRIVAT", sort_order: 3, is_active: true },
+  { text: "RAMAH ANJING", sort_order: 4, is_active: true },
+  { text: "MALAM JAZZ", sort_order: 5, is_active: true },
+  { text: "WORKSHOP ROASTING", sort_order: 6, is_active: true },
+  { text: "SPECIALTY COFFEE", sort_order: 7, is_active: true },
+];
+
+export const initialOperatingHoursSeed = [
+  { day: "Senin – Jumat", open_time: "07.00", close_time: "22.00", is_open: true, sort_order: 1 },
+  { day: "Sabtu", open_time: "08.00", close_time: "23.00", is_open: true, sort_order: 2 },
+  { day: "Minggu", open_time: "09.00", close_time: "21.00", is_open: true, sort_order: 3 },
+];
+
 export async function seedAllTablesToSupabase() {
   if (!supabase) {
     throw new Error("Supabase is not configured. Check VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your .env file.");
@@ -558,6 +604,30 @@ export async function seedAllTablesToSupabase() {
   const { error: resErr } = await supabase.from("reservations").insert(initialReservationsSeed);
   if (resErr) console.error("Error seeding reservations:", resErr);
   else console.log("✅ reservations seeded successfully");
+
+  // 6. Business Settings
+  await supabase.from("business_settings").delete().gte("updated_at", "1970-01-01T00:00:00Z");
+  const { error: bsErr } = await supabase.from("business_settings").insert(initialBusinessSettingsSeed);
+  if (bsErr) console.error("Error seeding business_settings:", bsErr);
+  else console.log("✅ business_settings seeded successfully");
+
+  // 7. Hero Content
+  await supabase.from("hero_content").delete().gte("updated_at", "1970-01-01T00:00:00Z");
+  const { error: heroErr } = await supabase.from("hero_content").insert(initialHeroContentSeed);
+  if (heroErr) console.error("Error seeding hero_content:", heroErr);
+  else console.log("✅ hero_content seeded successfully");
+
+  // 8. Marquee Items
+  await supabase.from("marquee_items").delete().gte("created_at", "1970-01-01T00:00:00Z");
+  const { error: marqueeErr } = await supabase.from("marquee_items").insert(initialMarqueeSeed);
+  if (marqueeErr) console.error("Error seeding marquee_items:", marqueeErr);
+  else console.log("✅ marquee_items seeded successfully");
+
+  // 9. Operating Hours
+  await supabase.from("operating_hours").delete().gte("updated_at", "1970-01-01T00:00:00Z");
+  const { error: hoursErr } = await supabase.from("operating_hours").insert(initialOperatingHoursSeed);
+  if (hoursErr) console.error("Error seeding operating_hours:", hoursErr);
+  else console.log("✅ operating_hours seeded successfully");
 
   return true;
 }

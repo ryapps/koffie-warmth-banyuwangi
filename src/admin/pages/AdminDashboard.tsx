@@ -70,6 +70,61 @@ export const AdminDashboard = () => {
   const publishedTestimonials = testimonials.filter((item) => item.status === "published");
   const pendingReservations = reservations.filter((r) => r.status === "pending").length;
 
+  const getItemTime = (createdAt?: string, date?: string) => {
+    if (createdAt) {
+      const time = new Date(createdAt).getTime();
+      if (!isNaN(time)) return time;
+    }
+    if (date) {
+      const time = new Date(date).getTime();
+      if (!isNaN(time)) return time;
+    }
+    return 0;
+  };
+
+  // Sort reservations so newest appear first
+  const sortedReservations = [...reservations].sort(
+    (a, b) => getItemTime(b.createdAt, b.date) - getItemTime(a.createdAt, a.date)
+  );
+
+  // Generate real dynamic activities from store data, sorted by timestamp descending
+  const activities = [
+    ...reservations.map((r) => ({
+      id: `res-${r.id || r.name}`,
+      type: "Reservasi Masuk",
+      text: `${r.name} (${r.guests} tamu)`,
+      detail: `${r.date} • ${r.time} (${r.status})`,
+      badgeColor: r.status === "confirmed" ? "bg-emerald-500" : r.status === "pending" ? "bg-amber-500" : "bg-zinc-400",
+      timestamp: getItemTime(r.createdAt, r.date),
+    })),
+    ...events.map((e) => ({
+      id: `evt-${e.id}`,
+      type: "Acara",
+      text: e.title,
+      detail: `${e.date} • ${e.startTime} (${e.type})`,
+      badgeColor: "bg-blue-500",
+      timestamp: getItemTime(e.createdAt, e.date),
+    })),
+    ...testimonials.map((t) => ({
+      id: `testi-${t.id || t.name}`,
+      type: "Ulasan Pelanggan",
+      text: `${t.name} (${t.stars}★)`,
+      detail: `Status: ${t.status}`,
+      badgeColor: "bg-purple-500",
+      timestamp: getItemTime(t.createdAt),
+    })),
+    ...menuItems.map((m) => ({
+      id: `menu-${m.id || m.name}`,
+      type: "Item Menu",
+      text: m.name,
+      detail: `Rp ${m.price.toLocaleString("id-ID")} • ${m.category}`,
+      badgeColor: "bg-amber-600",
+      timestamp: getItemTime(m.createdAt),
+    })),
+  ]
+    .sort((a, b) => b.timestamp - a.timestamp)
+    .slice(0, 6);
+
   const avgRating =
     publishedTestimonials.length > 0
       ? (
@@ -154,7 +209,7 @@ export const AdminDashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {reservations.slice(0, 5).map((res) => (
+                  {sortedReservations.slice(0, 5).map((res) => (
                     <tr key={res.id} className="border-b border-[#E8DFD0] hover:bg-amber-50/30">
                       <td className="px-4 py-3 font-medium">{res.name}</td>
                       <td className="px-4 py-3">{res.date}</td>
@@ -175,29 +230,21 @@ export const AdminDashboard = () => {
           {/* Activity Feed */}
           <div className="bg-white rounded-lg border border-[#E8DFD0] p-6 shadow-sm">
             <h3 className="text-lg font-display font-bold text-charcoal mb-4">Aktivitas Terkini</h3>
-            <div className="space-y-4">
-              <div className="flex gap-3">
-                <div className="h-2 w-2 rounded-full bg-green-500 mt-1.5 flex-shrink-0"></div>
-                <div className="text-sm">
-                  <p className="text-charcoal">Menu baru ditambahkan</p>
-                  <p className="text-xs text-muted-foreground">Amber Latte</p>
-                </div>
+            {activities.length > 0 ? (
+              <div className="space-y-4">
+                {activities.map((act) => (
+                  <div key={act.id} className="flex gap-3 items-start">
+                    <div className={`h-2.5 w-2.5 rounded-full ${act.badgeColor} mt-1.5 flex-shrink-0`} />
+                    <div className="text-sm">
+                      <p className="text-charcoal font-medium">{act.type}: {act.text}</p>
+                      <p className="text-xs text-muted-foreground">{act.detail}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <div className="flex gap-3">
-                <div className="h-2 w-2 rounded-full bg-yellow-500 mt-1.5 flex-shrink-0"></div>
-                <div className="text-sm">
-                  <p className="text-charcoal">Reservasi baru masuk</p>
-                  <p className="text-xs text-muted-foreground">4 tamu untuk hari ini</p>
-                </div>
-              </div>
-              <div className="flex gap-3">
-                <div className="h-2 w-2 rounded-full bg-blue-500 mt-1.5 flex-shrink-0"></div>
-                <div className="text-sm">
-                  <p className="text-charcoal">Acara diperbarui</p>
-                  <p className="text-xs text-muted-foreground">Malam Jazz Spesial</p>
-                </div>
-              </div>
-            </div>
+            ) : (
+              <p className="text-xs text-muted-foreground italic py-4">Belum ada aktivitas tercatat di database.</p>
+            )}
           </div>
         </div>
 

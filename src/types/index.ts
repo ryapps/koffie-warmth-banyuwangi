@@ -10,6 +10,7 @@ export interface MenuItem {
   isActive?: boolean;
   order?: number;
   featured?: boolean;
+  createdAt?: string;
 }
 
 export interface MenuCategory {
@@ -35,6 +36,7 @@ export interface Event {
   image: string;
   status: "aktif" | "draft" | "selesai";
   isPublished?: boolean;
+  createdAt?: string;
 }
 
 export interface Testimonial {
@@ -46,6 +48,7 @@ export interface Testimonial {
   stars: number;
   status: "pending" | "published" | "hidden";
   order?: number;
+  createdAt?: string;
 }
 
 export interface GalleryPhoto {
@@ -56,6 +59,7 @@ export interface GalleryPhoto {
   isActive?: boolean;
   order?: number;
   isHero?: boolean;
+  createdAt?: string;
 }
 
 export interface Reservation {
@@ -73,45 +77,44 @@ export interface Reservation {
 }
 
 export interface CafeSettings {
+  id?: string;
   name: string;
   tagline: string;
   description: string;
   address: string;
   city: string;
-  mapsUrl?: string;
-  logo?: string;
   phone: string;
   whatsapp: string;
   email: string;
   instagram?: string;
-  tiktok?: string;
   facebook?: string;
-  googleMapsLink?: string;
+  mapsUrl?: string;
+  ratingStat?: string;
+  yearsStat?: string;
+  originsStat?: string;
 }
 
 export interface OperatingHours {
+  id?: string;
   day: string;
   isOpen: boolean;
   openTime: string;
   closeTime: string;
+  order?: number;
 }
 
 export interface HeroContent {
-  label: string;
-  headline1: string;
-  headline2: string;
-  headline3: string;
-  quote: string;
-  body: string;
-  button1Label: string;
-  button2Label: string;
-  stat1Number: string;
-  stat1Label: string;
-  stat2Number: string;
-  stat2Label: string;
-  stat3Number: string;
-  stat3Label: string;
-  backgroundImage?: string;
+  id?: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  locationLabel?: string;
+  imageUrl: string;
+  primaryCtaText: string;
+  primaryCtaLink: string;
+  secondaryCtaText: string;
+  secondaryCtaLink: string;
+  isActive?: boolean;
 }
 
 export interface MarqueeItem {

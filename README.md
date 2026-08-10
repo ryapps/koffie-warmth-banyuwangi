@@ -258,9 +258,14 @@ koffie/
    *(Note: If Supabase credentials are left empty, the application seamlessly runs in fallback mode using Zustand local state).*
 
 4. **Database Setup (Optional for live Supabase sync)**:
-   Run the SQL statements from `supabase-seed.sql` in your Supabase SQL Editor to create tables (`menu_items`, `events`, `testimonials`, `gallery_photos`, `reservations`) and seed initial sample data.
+   Run the SQL statements from `supabase-events.sql` and `supabase-seed.sql` in your Supabase SQL Editor to create tables (`menu_items`, `events`, `testimonials`, `gallery_photos`, `reservations`, `business_settings`, `hero_content`, `marquee_items`, `operating_hours`) and seed initial sample data.
 
-5. **Run Development Server**:
+5. **Dynamic Business Content Management**:
+   - **Hero Content**: Title, subtitle, description, quote, location label, and background image (with Supabase Storage) managed in Admin Panel (`/admin/hero`).
+   - **Marquee Running Text**: Active marquee labels, order, and styling managed in Admin Panel (`/admin/marquee`).
+   - **Business Information & Hours**: Cafe details, address, contact numbers, social links, Google Maps URL, and operating hours managed in Admin Panel (`/admin/settings`).
+
+6. **Run Development Server**:
    ```bash
    npm run dev
    ```

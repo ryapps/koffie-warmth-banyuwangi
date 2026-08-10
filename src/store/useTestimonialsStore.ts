@@ -24,6 +24,7 @@ type TestimonialRow = {
   stars: number;
   status: Testimonial["status"];
   sort_order: number;
+  created_at?: string;
 };
 
 const initialTestimonialsData: Testimonial[] = [];
@@ -40,6 +41,7 @@ const toTestimonial = (row: TestimonialRow): Testimonial => ({
   stars: row.stars,
   status: row.status,
   order: row.sort_order,
+  createdAt: row.created_at,
 });
 
 const toTestimonialPayload = (item: Partial<Testimonial>) =>

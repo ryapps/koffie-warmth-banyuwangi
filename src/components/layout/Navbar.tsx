@@ -1,15 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { config } from "@/data/config";
 import { useScrolled } from "@/hooks/useScrolled";
 import { BrandButton } from "@/components/ui/BrandButton";
 import { cn } from "@/lib/utils";
 import { useReservationModalStore } from "@/store/useReservationModalStore";
+import { useSettingsStore } from "@/store/useSettingsStore";
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const scrolled = useScrolled(20);
   const openReservationModal = useReservationModalStore((state) => state.openModal);
+  const cafeSettings = useSettingsStore((state) => state.cafeSettings);
+
+  useEffect(() => {
+    useSettingsStore.getState().loadSettings().catch((err) => {
+      console.error("Gagal memuat pengaturan di Navbar:", err);
+    });
+  }, []);
 
   const handleOpenModal = () => {
     setOpen(false);
@@ -26,7 +34,7 @@ export function Navbar() {
       <nav className="max-w-[1600px] mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
         <a href="#top" className="flex items-baseline gap-1.5">
           <span className="font-display font-bold text-cream text-2xl tracking-tight">
-            {config.brand.name}
+            {cafeSettings.name || config.brand.name}
           </span>
           <span className="font-accent italic text-amber-brand text-sm">
             {config.brand.suffix}

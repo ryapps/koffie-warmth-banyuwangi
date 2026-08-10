@@ -8,16 +8,21 @@ import { config } from "@/data/config";
 import { useEventsStore } from "@/store/useEventsStore";
 import { useTestimonialsStore } from "@/store/useTestimonialsStore";
 import { useReservationModalStore } from "@/store/useReservationModalStore";
+import { useSettingsStore } from "@/store/useSettingsStore";
 import { Event, Testimonial } from "@/types";
 import { Mail, MapPin, Phone, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export function EventsSection() {
   const [events, setEvents] = useState<Event[]>([]);
+  const cafeSettings = useSettingsStore((state) => state.cafeSettings);
 
   useEffect(() => {
     useEventsStore.getState().loadItems().catch((error) => {
       console.error("Gagal memuat acara dari Supabase", error);
+    });
+    useSettingsStore.getState().loadSettings().catch((error) => {
+      console.error("Gagal memuat pengaturan dari Supabase", error);
     });
 
     const storeEvents = useEventsStore.getState().items.filter((e) => e.status === "aktif");
@@ -42,12 +47,12 @@ export function EventsSection() {
         <SectionLabel>Jurnal Komunitas</SectionLabel>
         <div className="grid lg:grid-cols-2 gap-8 mt-3 items-end">
           <h2 className="font-display font-black text-4xl lg:text-6xl text-espresso leading-tight">
-            Hidup di <em className="not-italic italic font-display text-amber-brand">KOFFIE</em>
+            Hidup di <em className="not-italic italic font-display text-amber-brand">{cafeSettings.name || "KOFFIE"}</em>
           </h2>
           <p className="text-mutedbrown text-sm">
             Ikuti keseharian kami di{" "}
             <a href="#" className="text-amber-brand font-medium">
-              {config.contact.instagram}
+              {cafeSettings.instagram || config.contact.instagram}
             </a>
           </p>
         </div>
@@ -176,9 +181,30 @@ export function TestimonialsSection() {
 
 export function FindUsSection() {
   const openReservationModal = useReservationModalStore((state) => state.openModal);
+  const cafeSettings = useSettingsStore((state) => state.cafeSettings);
+  const operatingHours = useSettingsStore((state) => state.operatingHours);
 
-  const cleanPhone = config.contact.whatsapp.replace(/[^0-9]/g, "");
+  useEffect(() => {
+    useSettingsStore.getState().loadSettings().catch((err) => {
+      console.error("Gagal memuat pengaturan lokasi dari Supabase:", err);
+    });
+  }, []);
+
+  const cleanPhone = (cafeSettings.whatsapp || config.contact.whatsapp).replace(/[^0-9]/g, "");
   const waUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent("Halo KOFFIE Café, saya ingin bertanya tentang reservasi/menu.")}`;
+
+  const getEmbedMapUrl = (rawUrl?: string) => {
+    if (!rawUrl) return "https://www.google.com/maps?q=Banyuwangi,Jawa+Timur&output=embed";
+    if (rawUrl.includes("output=embed") || rawUrl.includes("/embed")) return rawUrl;
+    if (rawUrl.includes("google.com/maps") || rawUrl.includes("maps.google.com")) {
+      return rawUrl.includes("?")
+        ? `${rawUrl}&output=embed`
+        : `${rawUrl}?output=embed`;
+    }
+    return rawUrl;
+  };
+
+  const mapEmbedUrl = getEmbedMapUrl(cafeSettings.mapsUrl);
 
   return (
     <section id="lokasi" className="bg-cream py-24">
@@ -186,14 +212,14 @@ export function FindUsSection() {
         <SectionLabel>Datanglah Berkunjung</SectionLabel>
         <h2 className="font-display font-black text-4xl lg:text-6xl text-espresso leading-tight mt-3">
           Temukan Jalanmu ke{" "}
-          <em className="not-italic italic font-display text-amber-brand">KOFFIE</em>
+          <em className="not-italic italic font-display text-amber-brand">{cafeSettings.name || "KOFFIE"}</em>
         </h2>
 
         <div className="grid lg:grid-cols-2 gap-10 mt-12">
           <div className="aspect-[4/3] border-2 border-amber-brand/40 overflow-hidden">
             <iframe
               title="Lokasi KOFFIE Banyuwangi"
-              src="https://www.google.com/maps?q=Banyuwangi,Jawa+Timur&output=embed"
+              src={mapEmbedUrl}
               className="w-full h-full"
               loading="lazy"
             />
@@ -202,10 +228,10 @@ export function FindUsSection() {
             <div>
               <div className="text-xs tracking-[0.25em] text-mutedbrown uppercase">Alamat</div>
               <div className="font-display text-2xl lg:text-3xl text-espresso mt-2 leading-snug">
-                {config.contact.address}
+                {cafeSettings.address || config.contact.address}
               </div>
               <a
-                href="https://maps.google.com"
+                href={cafeSettings.mapsUrl || "https://maps.google.com"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-amber-brand text-xs tracking-widest uppercase mt-3"
@@ -218,13 +244,13 @@ export function FindUsSection() {
               <div className="text-xs tracking-[0.25em] text-mutedbrown uppercase mb-3">
                 Jam Buka
               </div>
-              {config.hours.map((h) => (
+              {operatingHours.map((h) => (
                 <div
                   key={h.day}
                   className="flex justify-between py-2 border-b border-espresso/10 text-espresso"
                 >
                   <span>{h.day}</span>
-                  <span className="text-mutedbrown">{h.time}</span>
+                  <span className="text-mutedbrown">{h.openTime} – {h.closeTime}</span>
                 </div>
               ))}
             </div>
@@ -232,10 +258,10 @@ export function FindUsSection() {
               <div className="text-xs tracking-[0.25em] text-mutedbrown uppercase mb-3">Kontak</div>
               <div className="flex flex-col gap-2 text-espresso text-sm">
                 <span className="flex items-center gap-2">
-                  <Phone className="w-4 h-4 text-amber-brand" /> {config.contact.phone}
+                  <Phone className="w-4 h-4 text-amber-brand" /> {cafeSettings.phone || config.contact.phone}
                 </span>
                 <span className="flex items-center gap-2">
-                  <Mail className="w-4 h-4 text-amber-brand" /> {config.contact.email}
+                  <Mail className="w-4 h-4 text-amber-brand" /> {cafeSettings.email || config.contact.email}
                 </span>
               </div>
             </div>
