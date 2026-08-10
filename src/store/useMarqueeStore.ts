@@ -94,7 +94,6 @@ export const useMarqueeStore = create<MarqueeStore>()(
         set((state) => ({
           settings: { ...state.settings, ...newSettings },
         })),
-
       setItems: (items) =>
         set((state) => ({
           settings: { ...state.settings, items },
