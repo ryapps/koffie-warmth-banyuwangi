@@ -10,6 +10,7 @@ export interface MenuItem {
   isActive?: boolean;
   order?: number;
   featured?: boolean;
+  createdAt?: string;
 }
 
 export interface MenuCategory {
@@ -35,6 +36,7 @@ export interface Event {
   image: string;
   status: "aktif" | "draft" | "selesai";
   isPublished?: boolean;
+  createdAt?: string;
 }
 
 export interface Testimonial {
@@ -46,6 +48,7 @@ export interface Testimonial {
   stars: number;
   status: "pending" | "published" | "hidden";
   order?: number;
+  createdAt?: string;
 }
 
 export interface GalleryPhoto {
@@ -56,6 +59,7 @@ export interface GalleryPhoto {
   isActive?: boolean;
   order?: number;
   isHero?: boolean;
+  createdAt?: string;
 }
 
 export interface Reservation {
